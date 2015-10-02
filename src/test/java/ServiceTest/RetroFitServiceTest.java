@@ -24,7 +24,7 @@ public class RetroFitServiceTest {
 
         Response response = null;
         try {
-            response = gliciousClient.getMenuByDate(" ");
+            response = gliciousClient.getMenuByDate("9-3-2015.json");
         } catch (IOException e) {
             e.printStackTrace();
         }

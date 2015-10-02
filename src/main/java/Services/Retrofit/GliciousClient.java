@@ -14,7 +14,8 @@ import java.io.IOException;
  * Created by albertowusu-asare on 9/8/15.
  */
 public class GliciousClient {
-    private static final String BASE_URL ="https://appdev.grinnell.edu/glicious/";
+    private static final String BASE_URL ="https://appdev.grinnell.edu";
+    public static final String G_LICIOUS_URL = "https://appdev.grinnell.edu";
     private ClientServiceApi clientService;
     private Retrofit retrofit;
     private Response response= null;
@@ -25,22 +26,13 @@ public class GliciousClient {
 
     private  void initialiaze(){
 
-        Gson gson = new Gson();
 
-
-        retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(G_LICIOUS_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
 
-/*       retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .build();
-                */
-     /*  retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverter(Gson.class, gsonConverter)
-                .build();*/
 
         clientService = retrofit.create(ClientServiceApi.class);
         // retrofit implemenation of our client Api interface class
@@ -49,17 +41,12 @@ public class GliciousClient {
 
     public Response getMenuByDate(String date) throws IOException {
 
-        Call<Response> call = clientService.getMenuData(date);
+        Call<Response> call = clientService.getMeals(date);
 
-        call.enqueue(new Callback<Response>() {
+        return call.execute().body();
+       /* call.enqueue(new Callback<Response>() {
             @Override
             public void onResponse(retrofit.Response<Response> response) {
-                String str ="";
-                try {
-                    str = response.errorBody().string();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 setResponse(response.body());
             }
 
@@ -69,6 +56,7 @@ public class GliciousClient {
             }
         });
         return response;
+        */
     }
 
     public void setResponse(Response response){
